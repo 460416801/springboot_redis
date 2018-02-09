@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.lzx.Dao.MateMapper">
+
+    <resultMap type="com.lzx.Entity.Mate" id="mateMap">
+        <id column="id" property="id" />
+        <result column="name" property="name"/>
+        <result column="age" property="age" />
+        <result column="brithday" property="brithday" />
+    </resultMap>
+
+    <!--
+        在mybatis的mapper.xml文件中，我们做增删改查要注意几点。
+        一.接收dao层的数据
+
+            1. dao层方法：List<Mate> findByName(String name);
+               xml文件：parameterType="java.lang.String" 接收单一数据
+
+            2. dao层方法：List<Mate> findByName(@Param("name") String name ,@Param("age") Integer age);
+               xml文件： select  *  from user_user_t
+                         where name = #{name, jdbcType=VARCHAR}
+                         and    age = #{age , jdbcType=INTEGER}
+
+            3.dao层方法：List<Mate> findByName(Map<String,Object> map);
+               xml文件： select  *  from user_user_t
+                         where name = #{name, jdbcType=VARCHAR}
+                         and    age = #{age , jdbcType=INTEGER}
+                  注意： parameterType= "map" 接收map结合，值要与dao层的Map集合名称一致
+                        {}中的值要与map集合中的key值一致
+
+
+        二.返回dao层数据
+            1.resultMap，按照我们自定义的映射关系进行对象返回。resultMap="xxx"  xxx是我们自定义的名称
+
+            2.resultType  按照实体类进行返回，或者是返回jdk特有的类型,例如 String, int....还可以返回Map类型
+                          如果要是想返回实体类必须要吧实体类的全路径写上 例:resulType="com.lzx.Entity.Mate"
+
+
+     -->
+
+
+
+
+
+
+    <select id="findAll"  resultMap="mateMap">
+
+        select * from Mate
+
+    </select>
+
+    <select id="lala"  resultMap="mateMap">
+
+        select * from Mate where name = #{name,jdbcType=VARCHAR} and age = #{age ,jdbcType = INTEGER}
+
+    </select>
+
+</mapper>
