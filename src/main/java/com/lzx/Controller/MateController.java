@@ -5,41 +5,76 @@ import com.lzx.Config.BaseAPI;
 import com.lzx.Config.ResultCode;
 import com.lzx.Service.MateService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Ronin on 2018/2/9.
- */
+
 @RestController
-public class MateController extends BaseAPI{
+public class MateController extends BaseAPI {
 
     @Autowired
     private MateService mateService;
 
-    @GetMapping("lala")
-    public APIResult lala(@RequestParam("name")String name,@RequestParam("age")Integer age){
+    @GetMapping("/findById/{id}")
+    public APIResult findById(@PathVariable("id") int id) {
         try {
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put("data", mateService.lala(name, age));
-            return this.setResult(ResultCode.SUCCESS,map);
-        }catch(Exception e){
-            return this.setResult(ResultCode.ERROR,e.getLocalizedMessage());
+            map.put("data", mateService.findById(id));
+            return this.setResult(ResultCode.SUCCESS, map);
+        } catch (Exception e) {
+            return this.setResult(ResultCode.ERROR, e.getLocalizedMessage());
         }
     }
 
     @GetMapping("findAll")
-    public APIResult findAll(){
+    public APIResult findAll() {
         try {
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("data", mateService.findAll());
-            return this.setResult(ResultCode.SUCCESS,map);
-        }catch(Exception e){
-            return this.setResult(ResultCode.ERROR,e.getLocalizedMessage());
+            return this.setResult(ResultCode.SUCCESS, map);
+        } catch (Exception e) {
+            return this.setResult(ResultCode.ERROR, e.getLocalizedMessage());
         }
     }
+
+
+    @PostMapping("insert")
+    public APIResult insert() {
+        try {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("data", mateService.insert(888, "李正旭", 22, new Date()));
+            return this.setResult(ResultCode.SUCCESS, map);
+        } catch (Exception e) {
+            return this.setResult(ResultCode.ERROR, e.getLocalizedMessage());
+        }
+    }
+
+
+    @PutMapping("update")
+    public APIResult update() {
+        try {
+            Map<String, Object> map = new HashMap<String, Object>();
+            mateService.update(999, "李正旭", 22, new Date());
+            map.put("data", "修改成功，已做缓存处理");
+            return this.setResult(ResultCode.SUCCESS, map);
+        } catch (Exception e) {
+            return this.setResult(ResultCode.ERROR, e.getLocalizedMessage());
+        }
+    }
+
+    @DeleteMapping("delete/{id}")
+    public APIResult delete(@PathVariable("id") int id) {
+        try {
+            Map<String, Object> map = new HashMap<String, Object>();
+            mateService.delete(id);
+            map.put("data", "修改成功，已做缓存处理");
+            return this.setResult(ResultCode.SUCCESS, map);
+        } catch (Exception e) {
+            return this.setResult(ResultCode.ERROR, e.getLocalizedMessage());
+        }
+    }
+
 }

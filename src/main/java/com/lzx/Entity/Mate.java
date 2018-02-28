@@ -6,6 +6,7 @@ import java.util.Date;
 
 /**
  * Created by Ronin on 2018/2/6.
+ * 实体类
  */
 public class Mate implements Serializable{
 

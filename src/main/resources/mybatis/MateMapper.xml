@@ -7,10 +7,10 @@
 <mapper namespace="com.lzx.Dao.MateMapper">
 
     <resultMap type="com.lzx.Entity.Mate" id="mateMap">
-        <id column="id" property="id" />
+        <id column="id" property="id"/>
         <result column="name" property="name"/>
-        <result column="age" property="age" />
-        <result column="brithday" property="brithday" />
+        <result column="age" property="age"/>
+        <result column="brithday" property="brithday"/>
     </resultMap>
 
     <!--
@@ -29,8 +29,9 @@
                xml文件： select  *  from user_user_t
                          where name = #{name, jdbcType=VARCHAR}
                          and    age = #{age , jdbcType=INTEGER}
+
                   注意： parameterType= "map" 接收map结合，值要与dao层的Map集合名称一致
-                        {}中的值要与map集合中的key值一致
+                        #{}中的值要与map集合中的key值一致
 
 
         二.返回dao层数据
@@ -43,20 +44,41 @@
      -->
 
 
-
-
-
-
-    <select id="findAll"  resultMap="mateMap">
-
+    <select id="findAll" resultMap="mateMap">
         select * from Mate
-
     </select>
 
-    <select id="lala"  resultMap="mateMap">
-
-        select * from Mate where name = #{name,jdbcType=VARCHAR} and age = #{age ,jdbcType = INTEGER}
-
+    <select id="findAllPut" resultMap="mateMap">
+        select * from Mate
     </select>
+
+
+    <select id="findById" resultMap="mateMap">
+        select * from Mate where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+
+    <insert id="insert" parameterType="com.lzx.Entity.Mate">
+        insert into Mate(id,name,age,brithday)
+
+        values(#{id,jdbcType=INTEGER},
+        #{name,jdbcType=VARCHAR},
+        #{age,jdbcType=INTEGER},
+        #{brithday,jdbcType=TIMESTAMP})
+    </insert>
+
+
+    <update id="update" parameterType="com.lzx.Entity.Mate">
+        update Mate set name=#{name,jdbcType=VARCHAR},
+        age=#{age,jdbcType=INTEGER},
+        brithday=#{brithday,jdbcType=TIMESTAMP}
+        where id=#{id,jdbcType=INTEGER}
+    </update>
+
+
+    <delete id="delete" parameterType="INTEGER">
+        delete from Mate where id = #{id ,jdbcType = INTEGER}
+    </delete>
+
 
 </mapper>
